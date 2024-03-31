@@ -38,5 +38,50 @@ Keep in mind that autofixes in eslint use string replacement, so it's difficult 
 
 ## When Not To Use It
 
-- If you prefer to use [`@typescript-eslint/switch-exhaustiveness-check`](https://typescript-eslint.io/rules/switch-exhaustiveness-check/) and have another enforcement mechanism for avoiding `default`
-- If you prefer to use `default` case for its usual purpose
+The most similar rule to this is [`@typescript-eslint/switch-exhaustiveness-check`](https://typescript-eslint.io/rules/switch-exhaustiveness-check/), which you might prefer instead.
+
+`@typescript-eslint/switch-exhaustiveness-check` has to be configured with `allowDefaultCaseForExhaustiveSwitch: false`, or else it won't offer safe, ongoing exhaustiveness checking.
+
+With that configuration, it performs similarly to this rule, with one main difference:
+
+`@typescript-eslint/switch-exhaustiveness-check` requires `switch` statements to look like this:
+
+```ts
+declare const x: 1 | 2;
+switch(x) {
+  case 1:
+    ...
+    break;
+  case 2:
+    ...
+}
+```
+
+I.e., it would actively _forbid_ a `default` case that calls `assertUnreachable`.
+
+By contrast, this rule would require the same `switch` to look like this:
+
+```ts
+switch(x) {
+  case 1:
+    ...
+    break;
+  case 2:
+    ...
+    break;
+  default:
+    assertUnreachable(x);
+}
+```
+
+Obviously, the version imposed by this rule is more "noisy"/"boilerplate"-y. But, what you get in return is more safety in case the types are wrong.
+
+I.e., if `x` is typed as `1 | 2`, but it can actually take on another value, the former `switch` will almost certainly do the wrong thing — and silently — while the latter will throw an exception that alerts you to issue.
+
+The types might be wrong for any number of reasons:
+
+- manually-written types for libraries not written in Typescript;
+- manually-written types for some service that your code is interacting with (say, a third-party API or your database) that come out of sync/aren't perfectly accurate;
+- a cast somewhere in your code that isn't as safe as you thought it was.
+
+So, unless you really, really trust your types, the boilerplate might be worth it.

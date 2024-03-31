@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-switch-statement",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "Rules for properly handling switch statements, including ensuring that appropriate exhaustive case handling.",
   "keywords": [
     "eslint",
