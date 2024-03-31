@@ -23,7 +23,7 @@ Add `exhaustive-switch` to the plugins section of your `.eslintrc` configuration
 
 ```json
 {
-  "plugins": ["exhaustive-switch"]
+  "plugins": ["@ethanresnick/exhaustive-switch"]
 }
 ```
 
@@ -44,10 +44,11 @@ Then configure the rule under the rules section.
 
 <!-- begin auto-generated rules list -->
 
-🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).
+🔧 Automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/user-guide/command-line-interface#--fix).\
+💭 Requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
-| Name                                                                               | Description                      | 🔧 |
-| :--------------------------------------------------------------------------------- | :------------------------------- | :- |
-| [require-unreachable-default-case](docs/rules/require-unreachable-default-case.md) | require unreachable default case | 🔧 |
+| Name                                                                               | Description                      | 🔧 | 💭 |
+| :--------------------------------------------------------------------------------- | :------------------------------- | :- | :- |
+| [require-appropriate-default-case](docs/rules/require-appropriate-default-case.md) | require unreachable default case | 🔧 | 💭 |
 
 <!-- end auto-generated rules list -->

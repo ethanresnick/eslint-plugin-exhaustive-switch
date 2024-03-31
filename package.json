@@ -1,8 +1,7 @@
 {
-  "name": "eslint-plugin-exhaustive-switch",
-  "version": "1.0.10",
-  "packageManager": "yarn@3.3.1",
-  "description": "Rules for making switch/case expressions for union type values exhaustively checkable at compile time.",
+  "name": "eslint-plugin-switch-statement",
+  "version": "0.0.10",
+  "description": "Rules for properly handling switch statements, including ensuring that appropriate exhaustive case handling.",
   "keywords": [
     "eslint",
     "eslintplugin",
@@ -11,62 +10,53 @@
     "switch",
     "case"
   ],
-  "repository": "jakehamtexas/eslint-plugin-exhaustive-switch",
-  "author": "Jake Hamilton <jakehamtexas@gmail.com>",
+  "repository": "ethanresnick/eslint-plugin-exhaustive-switch",
+  "author": "Ethan Resnick <ethan.resnick@gmail.com>",
   "main": "./dist/index.js",
   "exports": "./dist/index.js",
   "scripts": {
-    "build": "tsc -p lib/tsconfig.build.json && esbuild pre/index.js --bundle --platform=node --outfile=dist/index.js --format=cjs --external:espree",
-    "test": "jest",
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/",
     "lint": "npm-run-all \"lint:*\"",
     "lint:ts": "eslint .",
-    "lint:docs": "yarn eslint-doc-generator --check",
-    "generate": "npm-run-all \"generate:*\"",
-    "generate:types": "./scripts/generate-schema-types.ts",
+    "lint:docs": "npm run generate:eslint-docs -- --check",
     "generate:eslint-docs": "eslint-doc-generator",
-    "prepublish": "yarn run generate && yarn run build && yarn run test && yarn run lint"
+    "prepublish": "npm run generate:eslint-docs && npm run build && npm run test && npm run lint"
   },
   "files": [
     "/dist",
     "/docs"
   ],
   "dependencies": {
-    "@typescript-eslint/utils": "^5.48.0",
-    "lodash": "^4.17.21",
-    "requireindex": "^1.2.0"
+    "@typescript-eslint/utils": "^7.4.0"
   },
   "devDependencies": {
-    "@swc/core": "^1.3.25",
-    "@swc/jest": "^0.2.24",
     "@types/eslint": "^8.4.10",
     "@types/jest": "^29.2.5",
-    "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
-    "@types/requireindex": "^1.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.48.0",
-    "@typescript-eslint/parser": "^5.48.0",
-    "esbuild": "^0.16.14",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "@typescript-eslint/rule-tester": "^7.4.0",
     "eslint": "^8.19.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-doc-generator": "^1.4.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-doc-generator": "^1.7.0",
     "eslint-plugin-eslint-plugin": "^5.0.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-unicorn": "^45.0.2",
-    "espree": "^9.4.1",
-    "jest": "^29.3.1",
-    "json-schema-to-typescript": "^11.0.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.1",
-    "ts-node": "^10.9.1",
-    "type-fest": "^3.5.1",
     "typescript": "^4.9.4"
   },
   "engines": {
     "node": "^14.17.0 || ^16.0.0 || >= 18.0.0"
   },
   "peerDependencies": {
-    "eslint": ">=7",
-    "espree": "^9.4.1"
+    "eslint": ">=8"
+  },
+  "//": "TS is, ofc, a required peerDep, but we mark it optional as described here: https://github.com/typescript-eslint/typescript-eslint/issues/2051#issuecomment-631656159",
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
   },
   "license": "ISC"
 }

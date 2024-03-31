@@ -1,5 +1,2 @@
-pre
-dist
 node_modules
-.yarn
-.editorconfig
+dist

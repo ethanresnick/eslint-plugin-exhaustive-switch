@@ -1,6 +1,0 @@
-{
-  "type": "object",
-  "properties": {
-    "unreachableDefaultCaseAssertionFunctionName": { "type": "string", "default": "assertUnreachable" }
-  }
-}

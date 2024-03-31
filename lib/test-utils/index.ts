@@ -1,38 +1,22 @@
-import { TSESLint } from "@typescript-eslint/utils";
+import { RuleTester } from "@typescript-eslint/rule-tester";
+import { describe, after, it } from "node:test";
 
-export const makeRuleTester = (): TSESLint.RuleTester =>
-  new TSESLint.RuleTester({
+RuleTester.afterAll = after;
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+RuleTester.describe = describe;
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+RuleTester.it = it;
+
+export const makeRuleTester = (): RuleTester =>
+  new RuleTester({
+    // eslint-disable-next-line node/no-missing-require
     parser: require.resolve("@typescript-eslint/parser"),
+    parserOptions: {
+      project: "../tsconfig.test.json",
+      tsconfigRootDir: __dirname,
+    },
+    defaultFilenames: {
+      ts: "index.js",
+      tsx: "index.js",
+    },
   });
-
-export type TestCase<
-  TBaseName extends string,
-  TBase,
-  TVariant extends { name: string }
-> = TVariant extends { name: infer UName }
-  ? Omit<
-      TBase &
-        Omit<TVariant, "name"> & {
-          name: `${TBaseName} - ${UName & string}`;
-        },
-      "baseName"
-    >
-  : never;
-export const testCaseFactory = <
-  TBaseName extends string,
-  TBase extends { baseName: TBaseName },
-  TVariants extends { name: string }[]
->(
-  { baseName, ...rest }: TBase,
-  ...variants: TVariants
-): {
-  [K in keyof TVariants]: TestCase<TBaseName, TBase, TVariants[K]>;
-} => {
-  return variants.map((variant) => ({
-    ...rest,
-    ...variant,
-    name: `${baseName} - ${variant.name}`,
-  })) as {
-    [K in keyof TVariants]: TestCase<TBaseName, TBase, TVariants[K]>;
-  };
-};
