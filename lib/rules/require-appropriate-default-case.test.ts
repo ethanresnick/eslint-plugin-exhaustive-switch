@@ -2,13 +2,13 @@ import type {
   InvalidTestCase,
   ValidTestCase,
 } from "@typescript-eslint/rule-tester";
-import { makeRuleTester } from "../test-utils";
-import type { MessageIds, Options } from "./require-appropriate-default-case";
+import { makeRuleTester } from "../test-utils/index.js";
+import type { MessageIds, Options } from "./require-appropriate-default-case.js";
 import {
   RULE_NAME,
   DEFAULT_ASSERT_NEVER_FN_NAME,
-} from "./require-appropriate-default-case";
-import UnreachableDefaultCase from "./require-appropriate-default-case";
+} from "./require-appropriate-default-case.js";
+import UnreachableDefaultCase from "./require-appropriate-default-case.js";
 
 const ruleTester = makeRuleTester();
 
@@ -52,17 +52,7 @@ const valid: ValidTestCase<Options>[] = [
     name: "nested switches, all with default cases",
     code: "declare const foo: number | string; switch (foo) { default: { switch (foo) { default: 4 } } }",
     options: assertNeverOptions,
-  },
-  // TS doesn't treat non-literal enum members as distinct types, in part
-  // because I think the values need not be unique. (I.e., the below is valid TS.)
-  {
-    name: "switch with default case switching on enum with non-literal members",
-    code: "enum Direction { X = 1 << 2, Y = 1 << 2 } declare const foo: Direction; switch (foo) { default: true }",
-  },
-  {
-    name: "switch with default case switching on enum with computed members",
-    code: 'enum Direction { X = "12".length, Y = "32".length } declare const foo: Direction; switch (foo) { default: true }',
-  },
+  }
 ];
 
 // NB: in the tests below, the inclusion of output in some tests is doing a lot
@@ -208,15 +198,21 @@ function test<T extends string | number>(foo: Foo<T>) {
   {
     name: "no exhaustiveness check in default case of switch that could use one - with normal case",
     code: "declare const foo: 1 | 2; switch (foo) { case 1: break; default: { doSomethingElse(foo); } }",
-    output:
-      "declare const foo: 1 | 2; switch (foo) { case 1: break; default: { doSomethingElse(foo); } }",
     errors: [{ messageId: "considerExhaustiveSwitch" }],
   },
   {
     name: "no exhaustiveness check in default case of switch that could use one - with only default case",
     code: "declare const foo: null | true; switch (foo) { default: { doSomethingElse(foo); } }",
-    output:
-      "declare const foo: null | true; switch (foo) { default: { doSomethingElse(foo); } }",
+    errors: [{ messageId: "considerExhaustiveSwitch" }],
+  },
+  {
+    name: "no exhaustiveness check in default case of switch that could use one - on enum with non-literal members",
+    code: "enum Direction { X = 1 << 2, Y = 1 << 2 } declare const foo: Direction; switch (foo) { default: true }",
+    errors: [{ messageId: "considerExhaustiveSwitch" }],
+  },
+  {
+    name: "no exhaustiveness check in default case of switch that could use one - on enum with computed members",
+    code: 'enum Direction { X = "12".length, Y = "32".length } declare const foo: Direction; switch (foo) { default: true }',
     errors: [{ messageId: "considerExhaustiveSwitch" }],
   },
   {
@@ -248,8 +244,6 @@ function test<T extends string | number>(foo: Foo<T>) {
     name: "switch with unconventionally located case default case",
     code: "declare const foo: 'a'; switch (foo) { default: { doSomethingElse(foo); } case 'bar': doSomething(); break; }",
     errors: [{ messageId: "considerExhaustiveSwitch" }],
-    output:
-      "declare const foo: 'a'; switch (foo) { default: { doSomethingElse(foo); } case 'bar': doSomething(); break; }",
   },
   {
     name: "switching on a member expression with an identifier on the LHS",

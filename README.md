@@ -1,29 +1,24 @@
-# eslint-plugin-exhaustive-switch
+# eslint-plugin-switch-statement
 
 Rules for making switch/case expressions for union type values exhaustively checkable at compile time.
 
 ## Installation
 
-You'll first need to install [ESLint](https://eslint.org/) and its dependency, `espree`:
-
-```sh
-npm i eslint espree --save-dev
-```
-
-Next, install `eslint-plugin-exhaustive-switch`. If you want to use the included `assertUnreachable` in your source
+Install `eslint-plugin-switch-statement`. If you want to use the included `assertUnreachable` in your source
 code, make sure to save it as a `dependency` and not a `devDependency`.
 
 ```sh
-npm install eslint-plugin-exhaustive-switch --save-dev
+npm install eslint-plugin-switch-statement --save-dev
 ```
 
 ## Usage
 
-Add `exhaustive-switch` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+```ts
+import exhaustiveSwitch from "eslint-plugin-switch-statement";
 
-```json
+// in your eslint flat config
 {
-  "plugins": ["@ethanresnick/exhaustive-switch"]
+  "plugins":  { "exhaustive-switch": exhaustiveSwitch }
 }
 ```
 
