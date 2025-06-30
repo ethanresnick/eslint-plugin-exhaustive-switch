@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-switch-statement",
-  "version": "0.0.12",
+  "version": "1.0.0",
   "description": "Rules for properly handling switch statements, including ensuring that appropriate exhaustive case handling.",
   "keywords": [
     "eslint",
@@ -16,7 +16,7 @@
   "exports": "./dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test dist/",
+    "test": "npm run build && node --test \"dist/**/*.test.js\"",
     "lint": "npm-run-all \"lint:*\"",
     "lint:ts": "eslint .",
     "lint:docs": "npm run generate:eslint-docs -- --check",
@@ -28,29 +28,28 @@
     "/docs"
   ],
   "dependencies": {
-    "@typescript-eslint/utils": "^7.4.0"
+    "@typescript-eslint/parser": "^8.35.0",
+    "@typescript-eslint/utils": "^8.35.0",
+    "typescript-eslint": "^8.35.0"
   },
   "devDependencies": {
-    "@types/eslint": "^8.4.10",
+    "@types/eslint": "^9.6.1",
     "@types/jest": "^29.2.5",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "@typescript-eslint/parser": "^7.4.0",
-    "@typescript-eslint/rule-tester": "^7.4.0",
-    "eslint": "^8.19.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-doc-generator": "^1.7.0",
-    "eslint-plugin-eslint-plugin": "^5.0.0",
+    "@typescript-eslint/rule-tester": "^8.35.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-doc-generator": "^2.2.2",
     "eslint-plugin-node": "^11.1.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.1",
-    "typescript": "^4.9.4"
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
   },
   "engines": {
-    "node": "^14.17.0 || ^16.0.0 || >= 18.0.0"
+    "node": ">=18.0.0"
   },
   "peerDependencies": {
-    "eslint": ">=8"
+    "eslint": ">=9"
   },
   "//": "TS is, ofc, a required peerDep, but we mark it optional as described here: https://github.com/typescript-eslint/typescript-eslint/issues/2051#issuecomment-631656159",
   "peerDependenciesMeta": {

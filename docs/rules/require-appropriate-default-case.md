@@ -1,4 +1,4 @@
-# Require appropriate `default` case
+# Require unreachable default case (`switch-statement/require-appropriate-default-case`)
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

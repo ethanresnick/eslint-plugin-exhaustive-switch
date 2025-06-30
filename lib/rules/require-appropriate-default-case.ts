@@ -34,8 +34,6 @@ export default ESLintUtils.RuleCreator.withoutDocs<Options, MessageIds>({
     fixable: "code",
     docs: {
       description: "require unreachable default case",
-      recommended: "recommended",
-      requiresTypeChecking: true,
       url: "https://github.com/ethanresnick/eslint-plugin-exhaustive-switch/blob/main/docs/rules/require-unreachable-default-case.md",
     },
     schema: [
